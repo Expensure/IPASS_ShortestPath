@@ -3,8 +3,11 @@ from matplotlib import pyplot as plt
 import csv
 
 
-
 def get_coords():
+    '''
+    Gets coordinate data from CSV file
+    :return: List of lists of coords
+    '''
     with open('cities_subset20.csv', 'r') as f:
         reader = csv.reader(f)
         next(reader)
@@ -16,11 +19,16 @@ def get_coords():
 
 
 def plot_coords():
-    data = get_coords()
-    x, y = data.T
+    '''
+    Plots all points in a scatterplot
+    :returns nothing:
+    '''
+    x, y = get_coords().T
     plt.scatter(x, y)
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.show()
     return None
+
+
 plot_coords()
