@@ -1,11 +1,16 @@
-from math import sqrt
-class Connection():
-    def __init__(self,town_a,town_b):
-        self.start = town_a
-        self.end = town_b
-    def get_towns(self):
-        return self.start, self.end
-    def get_distance(self):
-        return sqrt((self.start[0] - self.end[0])**2 + (self.start[1] - self.end[1])**2)
+from collections import namedtuple
+
+Connection = namedtuple('Collection', 'start, end, distance')
 
 
+def get_distance(coord_1, coord_2):
+    # Returns distance between two coordinates using Pythagoras' Equation
+    return round(((coord_1[0] - coord_2[0]) ** 2 + (coord_1[1] - coord_2[1]) ** 2) ** 0.5)
+
+
+def make_connection(coord_start, coord_end):
+    return Connection(coord_start, coord_end, get_distance(coord_start, coord_end))
+
+
+def get_connection(Connection):
+    print(Connection.inspect)
