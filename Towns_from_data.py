@@ -44,8 +44,8 @@ def evaluate():
     coords = get_coordinates(get_data())
     distances = get_edges(coords)
     dijkie = Dijkstra.TravellingSales(coords=coords)
-    state =[0, 1, 4, 3, 2]
-    dijkie.evaluate(state)
+    state =[1, 3, 4, 2, 0]
+    print(dijkie.evaluate(state))
     #TODO
     distances2 = Dijkstra.TravellingSales(distances=list(distances))
     result = distances2.evaluate(state)

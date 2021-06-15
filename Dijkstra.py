@@ -146,7 +146,7 @@ class TravellingSales:
                 fitness += self.dist_list[self.path_list.index(path)]
             else:
                 fitness += np.inf
-
+            print(self.path_list)
         return fitness
 
 
