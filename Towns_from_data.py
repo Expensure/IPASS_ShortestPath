@@ -38,21 +38,18 @@ def get_edges(coordinates):
     for i in coordinates:
         for j in coordinates:
             if i.all != j.all:
-                combos.append(Connection.make_connection(i,j))
+                combos.append([np.where(coordinates == i),np.where(coordinates == j),Connection.get_distance(i, j)])
     return combos
 
-def get_distances(coordinates):
-    distances = []
-    for i in coordinates:
-        for j in coordinates:
-            if i.all != j.all:
-                distances.append(Connection.get_distance(i,j))
-    return distances
 def evaluate():
     coords = np.array(get_coordinates(get_data()))
-    distances = np.array(get_distances(coords))
-    dijkie = Dijkstra.Dijkstra(coords, distances)
-    dijkie.evaluate(coords)
+    distances = get_edges(coords)
+    dijkie = Dijkstra.TravellingSales(coords=coords)
+    state = np.array([0, 1, 4, 3, 2])
+    dijkie.evaluate(state)
+    print(dijkie.evaluate(state))
+    distances2 = Dijkstra.TravellingSales(distances=distances)
+    distances2.evaluate(state)
     return None
 
 evaluate()

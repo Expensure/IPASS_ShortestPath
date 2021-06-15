@@ -1,8 +1,31 @@
 import numpy as np
 
-
-class Dijkstra:
-    """
+class TravellingSales:
+    """Fitness function for Travelling Salesman optimization problem.
+    Evaluates the fitness of a tour of n nodes, represented by state vector
+    :math:`x`, giving the order in which the nodes are visited, as the total
+    distance travelled on the tour (including the distance travelled between
+    the final node in the state vector and the first node in the state vector
+    during the return leg of the tour). Each node must be visited exactly
+    once for a tour to be considered valid.
+    Parameters
+    ----------
+    coords: list of pairs, default: None
+        Ordered list of the (x, y) coordinates of all nodes (where element i
+        gives the coordinates of node i). This assumes that travel between
+        all pairs of nodes is possible. If this is not the case, then use
+        :code:`distances` instead.
+    distances: list of triples, default: None
+        List giving the distances, d, between all pairs of nodes, u and v, for
+        which travel is possible, with each list item in the form (u, v, d).
+        Order of the nodes does not matter, so (u, v, d) and (v, u, d) are
+        considered to be the same. If a pair is missing from the list, it is
+        assumed that travel between the two nodes is not possible. This
+        argument is ignored if coords is not :code:`None`.
+    Examples
+    --------
+    .. highlight:: python
+    .. code-block:: python
         >>> import mlrose
         >>> import numpy as np
         >>> coords = [(0, 0), (3, 0), (3, 2), (2, 4), (1, 3)]
@@ -14,30 +37,49 @@ class Dijkstra:
         13.86138...
         >>> fitness_dists = mlrose.TravellingSales(distances=dists)
         >>> fitness_dists.evaluate(state)
-
+        29
+    Note
+    ----
+    1. The TravellingSales fitness function is suitable for use in travelling
+       salesperson (tsp) optimization problems *only*.
+    2. It is necessary to specify at least one of :code:`coords` and
+       :code:`distances` in initializing a TravellingSales fitness function
+       object.
     """
 
-    def __init__(self, coords, distances):
+    def __init__(self, coords=None, distances=None):
+
         if coords is None and distances is None:
-            raise Exception("At least one of coords and distances must be" + " specified.")
-        if coords is not None:
+            raise Exception("""At least one of coords and distances must be"""
+                            + """ specified.""")
+
+        elif coords is not None:
             self.is_coords = True
             path_list = []
             dist_list = []
+            print("done coords. Result:")
+
         else:
             self.is_coords = False
-            # Split into separate lists to save data
-            node1_list, node2_list, dist_list = zip(*distances)
 
-            if min(dist_list) <= 0:
-                raise Exception("The distance between each pair of nodes"+ " must be greater than 0.")
+            distancecheck = []
+            for i in distances:
+                if i[2] > 0:
+                    distancecheck.append(i)
+
+            distances = distancecheck
+            # Split into separate lists
+            node1_list, node2_list, dist_list = zip(*distances)
+            print(node1_list[1])
+            print(node2_list[1])
+
             if min(node1_list + node2_list) < 0:
-                raise Exception("The minimum node value must be 0.")
+                raise Exception("""The minimum node value must be 0.""")
 
             if not max(node1_list + node2_list) == \
-                   (len(set(node1_list + node2_list)) - 1):
-                raise Exception("All nodes must appear at least once in"
-                                + " distances.")
+                    (len(set(node1_list + node2_list)) - 1):
+                raise Exception("""All nodes must appear at least once in"""
+                                + """ distances.""")
 
             path_list = list(zip(node1_list, node2_list))
 
@@ -45,6 +87,7 @@ class Dijkstra:
         self.distances = distances
         self.path_list = path_list
         self.dist_list = dist_list
+        self.prob_type = 'tsp'
 
     def evaluate(self, state):
         """Evaluate the fitness of a state vector.
@@ -60,6 +103,20 @@ class Dijkstra:
             two consecutive nodes on the tour is not possible.
         """
 
+        if self.is_coords and len(state) != len(self.coords):
+            raise Exception("""state must have the same length as coords.""")
+
+        if not len(state) == len(set(state)):
+            raise Exception("""Each node must appear exactly once in state.""")
+
+        if min(state) < 0:
+            raise Exception("""All elements of state must be non-negative"""
+                            + """ integers.""")
+
+        if max(state) >= len(state):
+            raise Exception("""All elements of state must be less than"""
+                            + """ len(state).""")
+
         fitness = 0
 
         # Calculate length of each leg of journey
@@ -68,7 +125,8 @@ class Dijkstra:
             node2 = state[i + 1]
 
             if self.is_coords:
-                fitness += np.linalg.norm(np.array(self.coords[node1]) - np.array(self.coords[node2]))
+                fitness += np.linalg.norm(np.array(self.coords[node1])
+                                          - np.array(self.coords[node2]))
             else:
                 path = (min(node1, node2), max(node1, node2))
 
@@ -93,3 +151,14 @@ class Dijkstra:
                 fitness += np.inf
 
         return fitness
+
+    def get_prob_type(self):
+        """ Return the problem type.
+        Returns
+        -------
+        self.prob_type: string
+            Specifies problem type as 'discrete', 'continuous', 'tsp'
+            or 'either'.
+        """
+        return self.prob_type
+
