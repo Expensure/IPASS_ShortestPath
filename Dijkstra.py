@@ -70,10 +70,8 @@ class TravellingSales:
             distances = distancecheck
             # Split into separate lists
             node1_list, node2_list, dist_list = zip(*distances)
-            print(node1_list[1])
-            print(node2_list[1])
 
-            if min(node1_list + node2_list) < 0:
+            if min(node1_list) + min(node2_list) < 0:
                 raise Exception("""The minimum node value must be 0.""")
 
             if not max(node1_list + node2_list) == \
@@ -87,7 +85,6 @@ class TravellingSales:
         self.distances = distances
         self.path_list = path_list
         self.dist_list = dist_list
-        self.prob_type = 'tsp'
 
     def evaluate(self, state):
         """Evaluate the fitness of a state vector.
@@ -152,13 +149,4 @@ class TravellingSales:
 
         return fitness
 
-    def get_prob_type(self):
-        """ Return the problem type.
-        Returns
-        -------
-        self.prob_type: string
-            Specifies problem type as 'discrete', 'continuous', 'tsp'
-            or 'either'.
-        """
-        return self.prob_type
 
