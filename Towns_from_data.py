@@ -1,4 +1,3 @@
-import numpy as np
 import csv
 import Dijkstra
 from Town import Town
@@ -15,7 +14,7 @@ def get_data():
         city_coords = []
         for row in reader:
             city_coords.append([int(float(row[1])), int(float(row[2]))])
-        data = np.array(city_coords)
+        data = city_coords
     return data
 
 def get_towns(data):
@@ -37,19 +36,19 @@ def get_edges(coordinates):
     combos = []
     for i in coordinates:
         for j in coordinates:
-            if i.all != j.all:
-                combos.append([np.where(coordinates == i),np.where(coordinates == j),Connection.get_distance(i, j)])
+            if i != j:
+                combos.append([coordinates.index(i),coordinates.index(j),Connection.get_distance(i, j)])
     return combos
 
 def evaluate():
-    coords = np.array(get_coordinates(get_data()))
+    coords = get_coordinates(get_data())
     distances = get_edges(coords)
     dijkie = Dijkstra.TravellingSales(coords=coords)
-    state = np.array([0, 1, 4, 3, 2])
+    state =[0, 1, 4, 3, 2]
     dijkie.evaluate(state)
-    print(dijkie.evaluate(state))
-    distances2 = Dijkstra.TravellingSales(distances=distances)
-    distances2.evaluate(state)
-    return None
+    #TODO
+    distances2 = Dijkstra.TravellingSales(distances=list(distances))
+    result = distances2.evaluate(state)
+    return result
 
-evaluate()
+print(evaluate())
