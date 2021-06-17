@@ -11,6 +11,3 @@ def get_distance(coord_1, coord_2):
 def make_connection(coord_start, coord_end):
     return Connection(coord_start, coord_end, get_distance(coord_start, coord_end))
 
-
-def get_connection(Connection):
-    print(Connection.inspect)
