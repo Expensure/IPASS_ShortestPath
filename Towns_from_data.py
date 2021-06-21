@@ -3,7 +3,7 @@ import Get_Score
 from Town import Town
 import Connection
 from Algorithm import algorithm
-
+from Clustering import cluster_data
 
 def get_data():
     '''
@@ -101,6 +101,4 @@ def plot_coords(coords,route):
     plt.show()
     return None
 
-
-print(evaluate())
-print(algorithm(get_coordinates(get_data())))
+print(cluster_data(get_coordinates(get_data())))

@@ -2,7 +2,6 @@ import csv
 from itertools import permutations
 from Town import Town
 from time import time
-from csv import reader
 
 def algorithm(cities):
     path, min_length = calc_length(cities, range(len(cities)))
@@ -51,6 +50,7 @@ def get_coordinates(data):
         newInstance = Town(town)
         result.append(newInstance.get_coords())
     return result
+
 start = time()
 print(algorithm(get_coordinates(get_data())))
 print("Time costed: " + str((time() - start)))
