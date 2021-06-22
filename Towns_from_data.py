@@ -1,8 +1,9 @@
 import Get_Score
 from get_data import *
-from Algorithm import algorithm
-from Clustering import cluster_data
-
+from Algorithm import algorithm,algorithm_connect
+from Clustering import cluster_main
+import matplotlib.pyplot as plt
+from time import time
 def getMinimum(lst, index):
     minimum = 10000000
     for i in lst:
@@ -60,8 +61,23 @@ def plot_coords(coords, route):
     plt.plot(xl, yl)
     plt.xlabel('X')
     plt.ylabel('Y')
-    plt.show()
     return None
 
-
-print(cluster_data(get_data()))
+def main():
+    data = get_data()
+    clustered = cluster_main(data)
+    total = []
+    for i in clustered:
+        starts, ends = [], []
+        cluster = []
+        for j in i:
+            path,time = algorithm(j)
+            cluster.append(total)
+            #plot_coords(j,path)
+            starts.append(j[path[0]])
+            ends.append(j[path[len(path)-1]])
+        total.append(cluster)
+        print(starts,ends)
+        #plt.show()
+    algorithm_connect(starts,ends)
+main()
