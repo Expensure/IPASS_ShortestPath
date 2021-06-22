@@ -1,6 +1,4 @@
-import csv
 from itertools import permutations
-from time import time
 
 def algorithm(cities):
     path, min_length = calc_length(cities, range(len(cities)))
@@ -14,6 +12,21 @@ def algorithm(cities):
 
     return min_path, min_length
 
+def algorithm_connect(start_coords, end_coords):
+    def get_furthest():
+        print(len(start_coords))
+        print(len(end_coords))
+        maximum = 0
+        for i in start_coords:
+            for j in end_coords:
+                att = calc_length_two(i,j)
+                if att > maximum:
+                    maximum = att
+                    startmax = i
+                    endmax = j
+        return maximum, startmax, endmax
+    print(get_furthest())
+    return None
 
 def dist_squared(c1, c2):
     t1 = c2[0] - c1[0]
@@ -21,13 +34,16 @@ def dist_squared(c1, c2):
 
     return t1 ** 2 + t2 ** 2
 
-
+def calc_length_two(coord_1, coord_2):
+    # Returns distance between two coordinates using Pythagoras' Equation
+    return round(((coord_1[0] - coord_2[0]) ** 2 + (coord_1[1] - coord_2[1]) ** 2) ** 0.5)
 def calc_length(cities, path):
     length = 0
     for i in range(len(path)):
         length += dist_squared(cities[path[i - 1]], cities[path[i]])**0.5
 
     return path, length
+
 
 # 3! duurt 0.0s (6 combinaties)
 # 4! duurt 0.0s (24 combinaties)
