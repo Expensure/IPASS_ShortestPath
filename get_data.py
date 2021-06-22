@@ -7,14 +7,12 @@ def get_data():
     :return: List of lists of coords
     '''
     with open('cities_subset150.csv', 'r') as f:
-        print("reading...")
         reader = csv.reader(f)
         next(reader)
         city_coords = []
         for row in reader:
             city_coords.append([int(float(row[1])), int(float(row[2]))])
         data = city_coords
-    print("data acquired")
     return data
 
 
@@ -40,6 +38,3 @@ def get_edges(coordinates):
             if i != j:
                 combos.append([coordinates.index(i), coordinates.index(j), get_distance(i, j)])
     return combos
-
-print(get_data())
-print(get_edges(get_data()))
