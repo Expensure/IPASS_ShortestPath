@@ -1,6 +1,5 @@
 import csv
 from itertools import permutations
-from Town import Town
 from time import time
 
 def algorithm(cities):
@@ -26,34 +25,9 @@ def dist_squared(c1, c2):
 def calc_length(cities, path):
     length = 0
     for i in range(len(path)):
-        length += dist_squared(cities[path[i - 1]], cities[path[i]])
+        length += dist_squared(cities[path[i - 1]], cities[path[i]])**0.5
 
     return path, length
-
-def get_data():
-    '''
-    Gets coordinate data from CSV file
-    :return: List of lists of coords
-    '''
-    with open('cities_subset20.csv', 'r') as f:
-        reader = csv.reader(f)
-        next(reader)
-        city_coords = []
-        for row in reader:
-            city_coords.append([int(float(row[1])), int(float(row[2]))])
-        data = city_coords
-    return data
-
-def get_coordinates(data):
-    result = []
-    for town in data:
-        newInstance = Town(town)
-        result.append(newInstance.get_coords())
-    return result
-
-start = time()
-print(algorithm(get_coordinates(get_data())))
-print("Time costed: " + str((time() - start)))
 
 # 3! duurt 0.0s (6 combinaties)
 # 4! duurt 0.0s (24 combinaties)
