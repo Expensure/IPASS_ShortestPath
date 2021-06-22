@@ -1,3 +1,10 @@
+
+
+'''
+This file is deprecated since June the 18th
+'''
+
+
 from collections import namedtuple
 
 Connection = namedtuple('Collection', 'start, end, distance')
