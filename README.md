@@ -14,3 +14,7 @@ an appropriate csv should look like:
 |42657,32621
 
 ETC
+
+Change the amount of clusters in Clustering, in case your CSV files are too large (>60)
+
+Do that in get_clusters(_,6<--)
