@@ -81,7 +81,6 @@ def main():
         plt.show()
         total.append(cluster)
         connections = algorithm_connect(starts,ends)
-        print(connections)
         plot_tussen(connections)
     plt.show()
 main()
