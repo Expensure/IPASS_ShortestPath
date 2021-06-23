@@ -1,27 +1,13 @@
+'''
+Deprecated since 16th of June
+'''
+
 import numpy as np
 
 class Score:
-    """Fitness function for Travelling Salesman optimization problem.
-    coords: list of pairs, default: None
-        list of the (x, y) coordinates of all nodes (where i
-        gives the coordinates of node i). This assumes that travel between
-        all pairs of nodes is possible.
-    distances: list of triples, default: None
-        List giving the distances, d, between all pairs of nodes, u and v, for
-        which travel is possible, with each list item in the form (u, v, d).
-        Order of the nodes does not matter, so (u, v, d) and (v, u, d) are
-        considered to be the same. If a pair is missing from the list, it is
-        assumed that travel between the two nodes is not possible. This
-        argument is ignored if coords is not :code:`None`.
-
-    Note
-    ----
-    1. The TravellingSales fitness function is suitable for use in travelling
-       salesperson (tsp) optimization problems *only*.
-    2. It is necessary to specify at least one of :code:`coords` and
-       :code:`distances` in initializing a TravellingSales fitness function
-       object.
-    """
+    '''
+    Berekent afstand van een pad, om gebruikt te worden in Machine learning
+    '''
 
     def __init__(self, coords=None):
 
@@ -38,22 +24,8 @@ class Score:
         self.dist_list = dist_list
 
     def evaluate(self, state):
-        """Evaluate the fitness of a state vector.
-        Parameters
-        ----------
-        state: array
-            State array for evaluation. Each integer between 0 and
-            (len(state) - 1), inclusive must appear exactly once in the array.
-        Returns
-        -------
-        fitness: float
-            Value of fitness function. Returns :code:`np.inf` if travel between
-            two consecutive nodes on the tour is not possible.
-        """
-
         fitness = 0
-
-        # Calculate length of each leg of journey
+        # Berekent lengte van het pad tussen elk punt
         followed_path = []
         for i in range(len(state) - 1):
             node1 = state[i]
