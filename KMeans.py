@@ -39,17 +39,18 @@ class KMeans:
     def get_distance(self, point1, point2):
         return self.distance_matrix[point1][point2]
 
-    def closest_means(self, medoids, point):
-        closest_medoid = None
+    def closest_means(self, means, point):
+        #Vindt dichtsbijzijnde item bij aangegeven punt
+        closest_mean = None
         closest_distance = float('inf')
 
-        for medoid in medoids:
-            distance = self.get_distance(point, medoid)
+        for mean in means:
+            distance = self.get_distance(point, mean)
             if distance < closest_distance:
-                closest_medoid = medoid
+                closest_mean = mean
                 closest_distance = distance
 
-        return closest_medoid, closest_distance
+        return closest_mean, closest_distance
 
     def associate_points_to_closest_medoid(self, means):
         clusters = {mean: [mean] for mean in means}
@@ -100,17 +101,3 @@ class KMeans:
                 break
 
 
-from sklearn.datasets import make_blobs
-from sklearn.metrics.pairwise import pairwise_distances
-
-# generate random points
-X, _ = make_blobs(n_samples=100, centers=3)
-
-# compute distance matrix
-dist = pairwise_distances(X, metric='euclidean')
-print(dist)
-# k-medoids algorithm
-km = KMeans(distance_matrix=dist, n_clusters=3)
-km.run(max_iterations=10, tolerance=0.001)
-
-print(km.clusters)

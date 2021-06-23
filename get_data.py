@@ -6,7 +6,7 @@ def get_data():
     Gets coordinate data from CSV file
     :return: List of lists of coords
     '''
-    with open('cities_subset150.csv', 'r') as f:
+    with open('cities_subset40.csv', 'r') as f:
         reader = csv.reader(f)
         next(reader)
         city_coords = []

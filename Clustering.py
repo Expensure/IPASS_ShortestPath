@@ -1,7 +1,5 @@
-import matplotlib.pyplot as plt
-import csv
+import matplotlib.pyplot as plt # Om de clusters te plotten
 from sklearn.cluster import KMeans
-from get_data import *
 
 
 def split_xy(data):
@@ -31,7 +29,6 @@ def get_indexi(lst, element):
 def get_clusters(cluster_aantal,lst):
     model_kmeans = KMeans(n_clusters=cluster_aantal).fit(lst)
     labels = list(model_kmeans.labels_)
-    x = 0
     new = []
     for i in range(cluster_aantal):
         new.append(get_indexi(labels,i))
@@ -52,7 +49,8 @@ def get_coords(lst,data):
         total.append(new)
     return total
 
-def cluster_coords(coords,total):
+def cluster_coords_twice(coords,total):
+    #Unused since 22nd of June
     def transfer_to_coords(item):
         index_list, labels = get_clusters(6, item)
 
@@ -83,8 +81,8 @@ def cluster_main(data):
     plt.scatter(xlst,ylst,marker='o')
     plt.gcf().set_size_inches((10, 10))
     plt.show()
-    index_list, labels = get_clusters(7,data)
+    index_list, labels = get_clusters(8,data)
     plt.scatter(xlst, ylst, c=labels)
     plt.show()
     total_list = get_coords(index_list,data)
-    return cluster_coords(get_coords(index_list,data),total_list)
+    return get_coords(index_list,data),total_list
