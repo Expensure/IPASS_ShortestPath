@@ -75,8 +75,6 @@ def cluster_coords(coords,total):
         x+=1
     return doublelst
 
-def cluster_too_large(clustered_twice):
-    return None
 
 def cluster_main(data):
     xlst, ylst= split_xy(data)
