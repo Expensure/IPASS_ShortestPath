@@ -1,4 +1,22 @@
 import csv
+from Town import Town
+
+
+def import_file(filename):
+    '''
+    Gets coordinate data and puts them as Town nodes from CSV file
+    :return: List of Town objects
+    '''
+    with open(filename, "r") as myfile:
+        reader = csv.reader(myfile)
+        next(reader)
+        Cities = []
+        for line in reader:
+            numArray = []
+            for num in line:
+                numArray.append(int(float(num)))
+            Cities.append(Town(numArray[0], numArray[1], numArray[2]))
+    return Cities
 
 
 def get_data():
@@ -16,12 +34,12 @@ def get_data():
     return data
 
 
-#def get_coordinates(data):
-    #result = []
-    #for i in data:
-        #result.append(i)
-    #print("coordinates acquired")
-    #return result
+# def get_coordinates(data):
+# result = []
+# for i in data:
+# result.append(i)
+# print("coordinates acquired")
+# return result
 
 
 def get_distance(coord_1, coord_2):
