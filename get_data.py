@@ -15,7 +15,7 @@ def import_file(filename):
             num_array = []
             for num in line:
                 num_array.append(int(float(num)))
-            towns.append(Town(numArray[0], numArray[1], numArray[2]))
+            towns.append(Town(num_array[0], num_array[1], num_array[2]))
     return towns
 
 

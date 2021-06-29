@@ -1,13 +1,14 @@
 """
-Below is the nearest neighbor psuedocode, used for the
-construction heuristic, from https://en.wikipedia.org/wiki/Nearest_neighbour_algorithm:
+Nearest neighbor psuedocode, used for the first list, from https://en.wikipedia.org/wiki/Nearest_neighbour_algorithm:
     1. start on an arbitrary vertex as current vertex.
     2. find out the shortest edge connecting current vertex and an unvisited vertex V.
     3. set current vertex to V.
     4. mark V as visited.
     5. if all the vertices in domain are visited, then terminate.
     6. Go to step 2.
-Below is the 2-Opt psuedocode, from https://en.wikipedia.org/wiki/2-opt:
+
+
+2-Opt psuedocode, from https://en.wikipedia.org/wiki/2-opt:
     2optSwap(route, i, k) {
            1. take route[0] to route[i-1] and add them in order to new_route
            2. take route[i] to route[k] and add them in reverse order to new_route

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from get_data import *
-from Algorithm import algorithm,algorithm_connect
+from Algorithm import algorithm
 from Clustering import cluster_main
 
 
@@ -66,7 +66,7 @@ def plot_tussen(coord_route):
         plt.plot(i[0],i[1])
 
 def main():
-    data = get_data()
+    data = import_file("cities_subset150.csv")
     clustered = cluster_main(data)
     total = []
     for i in clustered:
