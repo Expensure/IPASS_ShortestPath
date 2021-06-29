@@ -32,8 +32,6 @@ Nearest neighbor psuedocode, used for the first list, from https://en.wikipedia.
        }
 """
 
-from get_data import import_file
-
 def calculate_dist(t1, t2):
     x_distance = abs(t1.x - t2.x)
     y_distance = abs(t1.y - t2.y)
@@ -95,7 +93,7 @@ def nearest_neighbor(route):
     return new_route
 
 
-def twoOptSwap(route, i, k):
+def two_opt_swap(route, i, k):
     new_route = []
 
     # 1. take route[0] to route[i-1] and add them in order to new_route
@@ -114,7 +112,7 @@ def twoOptSwap(route, i, k):
 
 
 # @profile
-def findTSPSolution(s):
+def two_opt_solve(s):
     improvement = True
     while improvement:
         improvement = False
@@ -122,7 +120,7 @@ def findTSPSolution(s):
         i = 1
         while i < len(s):
             for k in range(i + 1, len(s)):
-                new_route = twoOptSwap(s, i, k)
+                new_route = two_opt_swap(s, i, k)
                 new_distance = calc_path_dist(new_route)
                 if new_distance < best_distance:
                     s = new_route
@@ -139,26 +137,23 @@ def toString(s):
     return"Distance: " + str(calc_path_dist(s))
 
 
+def run_alg(coordinate_list):
+    coordinate_list2 = coordinate_list.copy()
+    coordinate_list3 = coordinate_list.copy()
+    print(toString(coordinate_list))
 
+    greedy = nearest_neighbor(coordinate_list)
 
-filename = "cities_subset40.csv"
-s = import_file(filename)
+    print("\nRoute na oude algoritme")
+    print(toString(greedy))
 
-print(toString(s))
+    if calc_path_dist(greedy) < calc_path_dist(coordinate_list2):
+        coordinate_list = greedy
+    else:
+        print("Greedy solution is verworpen door slechte score")
 
-greedy = nearest_neighbor(s)
-s = import_file(filename)
+    result = two_opt_solve(coordinate_list3)
 
-print("\nRoute na oude algoritme")
-print(toString(greedy))
-
-if calc_path_dist(greedy) < calc_path_dist(s):
-    s = greedy
-else:
-    print("Greedy solution is verworpen door slechte score")
-
-s = findTSPSolution(s)
-export_route(filename, s, calc_path_dist(s))
-
-print("\nNa een aantal 2-opt swaps")
-print(toString(s))
+    print("\nNa een aantal 2-opt swaps")
+    print(toString(result))
+    return result,greedy

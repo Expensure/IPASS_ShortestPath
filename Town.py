@@ -11,4 +11,5 @@ class Town:
         self.y = y
         self.visited = False
 
-
+    def get_coords(self):
+        return [self.x,self.y]
