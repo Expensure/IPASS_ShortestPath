@@ -10,28 +10,14 @@ def import_file(filename):
     with open(filename, "r") as myfile:
         reader = csv.reader(myfile)
         next(reader)
-        Cities = []
+        towns = []
         for line in reader:
-            numArray = []
+            num_array = []
             for num in line:
-                numArray.append(int(float(num)))
-            Cities.append(Town(numArray[0], numArray[1], numArray[2]))
-    return Cities
+                num_array.append(int(float(num)))
+            towns.append(Town(numArray[0], numArray[1], numArray[2]))
+    return towns
 
-
-def get_data():
-    '''
-    Gets coordinate data from CSV file
-    :return: List of lists of coords
-    '''
-    with open('cities_subset40.csv', 'r') as f:
-        reader = csv.reader(f)
-        next(reader)
-        city_coords = []
-        for row in reader:
-            city_coords.append([int(float(row[1])), int(float(row[2]))])
-        data = city_coords
-    return data
 
 
 # def get_coordinates(data):
