@@ -31,7 +31,7 @@ Nearest neighbor psuedocode, used for the first list, from https://en.wikipedia.
            }
        }
 """
-
+from tools import *
 def calculate_dist(t1, t2):
     x_distance = abs(t1.x - t2.x)
     y_distance = abs(t1.y - t2.y)
@@ -79,6 +79,7 @@ def algorithm(selected, route):
 
 # @profile
 def nearest_neighbor(route):
+    total_points = route.copy()
     new_route = []
     current_city = route.pop(0)
     new_route.append(current_city)
