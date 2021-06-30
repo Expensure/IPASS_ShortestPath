@@ -36,17 +36,14 @@ def calculate_dist(t1, t2):
     x_distance = abs(t1.x - t2.x)
     y_distance = abs(t1.y - t2.y)
 
-    return int(round((x_distance * x_distance + y_distance * y_distance))**0.5)
-
-
-
+    return int(round((x_distance**2 + y_distance**2))**0.5)
 
 # Writes output to file named after the original import file with .tour appended
 def export_route(filename, tour, distance):
-    with open(filename + ".tour", "w") as myFile:
-        myFile.write(str(distance) + '\n')
+    with open(filename + ".tour", "w") as file:
+        file.write(str(distance) + '\n')
         for city in tour:
-            myFile.write("%d\n" % city.id)
+            file.write("%d\n" % city.id)
 
 
 def calc_path_dist(route):
@@ -67,6 +64,7 @@ def calc_path_dist(route):
 
 
 def algorithm(selected, route):
+    #In plaats van 100! combinaties door te gaan, gaat ie nu 100+99+98+97+... combinaties door. Veel minder
     min_length = float("inf")
     closest = None
     for i in route:
@@ -146,11 +144,6 @@ def run_alg(coordinate_list):
 
     print("\nRoute na oude algoritme")
     print(toString(greedy))
-
-    if calc_path_dist(greedy) < calc_path_dist(coordinate_list2):
-        coordinate_list = greedy
-    else:
-        print("Greedy solution is verworpen door slechte score")
 
     result = two_opt_solve(coordinate_list3)
 

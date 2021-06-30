@@ -13,3 +13,11 @@ class Town:
 
     def get_coords(self):
         return [self.x,self.y]
+
+class Clustered_Town:
+    def __init__(self, id, x, y, cluster):
+        self.id = id
+        self.x = x
+        self.y = y
+        self.cluster = cluster
+        self.visited = False

@@ -45,7 +45,7 @@ def get_coords(lst,data):
     for i in lst:
         new = []
         for j in i:
-            new.append(data[j])
+            new.append(list(data[j]))
         total.append(new)
     return total
 
@@ -74,15 +74,14 @@ def cluster_coords_twice(coords,total):
     return doublelst
 
 
-def cluster_main(data):
+def cluster_main(data, cluster_count):
     xlst, ylst= split_xy(data)
        #Kmeans toepassen:
     #Voorbeeld scatterplot:
     plt.scatter(xlst,ylst,marker='o')
     plt.gcf().set_size_inches((10, 10))
     plt.show()
-    index_list, labels = get_clusters(8,data)
+    index_list, labels = get_clusters(cluster_count,data)
     plt.scatter(xlst, ylst, c=labels)
     plt.show()
-    total_list = get_coords(index_list,data)
-    return get_coords(index_list,data),total_list
+    return get_coords(index_list,data)
