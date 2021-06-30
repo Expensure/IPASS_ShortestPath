@@ -1,44 +1,21 @@
 """
-Nearest neighbor psuedocode, used for the first list, from https://en.wikipedia.org/wiki/Nearest_neighbour_algorithm:
-    1. start on an arbitrary vertex as current vertex.
-    2. find out the shortest edge connecting current vertex and an unvisited vertex V.
-    3. set current vertex to V.
-    4. mark V as visited.
-    5. if all the vertices in domain are visited, then terminate.
-    6. Go to step 2.
-
-
-2-Opt psuedocode, from https://en.wikipedia.org/wiki/2-opt:
-    2optSwap(route, i, k) {
-           1. take route[0] to route[i-1] and add them in order to new_route
-           2. take route[i] to route[k] and add them in reverse order to new_route
-           3. take route[k+1] to end and add them in order to new_route
-           return new_route;
-       }
-
-    repeat until no improvement is made {
-           start_again:
-           best_distance = calculateTotalDistance(existing_route)
-           for (i = 1; i < number of nodes eligible to be swapped - 1; i++) {
-               for (k = i + 1; k < number of nodes eligible to be swapped; k++) {
-                   new_route = 2optSwap(existing_route, i, k)
-                   new_distance = calculateTotalDistance(new_route)
-                   if (new_distance < best_distance) {
-                       existing_route = new_route
-                       goto start_again
-                   }
-               }
-           }
-       }
+Nearest neighbor pseudocode, van https://en.wikipedia.org/wiki/Nearest_neighbour_algorithm:
+    1. Start bij de eerste coordinaat uit de dataset O.
+    2. Zoek de dichtstbijzijnde coordinaat bij O die N heet.
+    3. Als N is gevonden, zet N neer als O en zet de coordinaat van O als "Visited"
+    4a. Als elke coordinaat staat onder "Visited", Return de volledige route, beeindig het algoritme
+    4b. Zo niet, ga naar stap 2
 """
-from tools import *
+
+
 def calculate_dist(t1, t2):
+    # Gebruikt pythagoras om afstand tussen twee towns te berekenen
     x_distance = abs(t1.x - t2.x)
     y_distance = abs(t1.y - t2.y)
+    return int(round((x_distance ** 2 + y_distance ** 2)) ** 0.5)
 
-    return int(round((x_distance**2 + y_distance**2))**0.5)
 
-# Writes output to file named after the original import file with .tour appended
+# Schrijft output van de route naar een aparte file
 def export_route(filename, tour, distance):
     with open(filename + ".tour", "w") as file:
         file.write(str(distance) + '\n')
@@ -55,16 +32,10 @@ def calc_path_dist(route):
     return tot
 
 
-# 1. start on an arbitrary vertex as current vertex.
-# 2. find out the shortest edge connecting current vertex and an unvisited vertex V.
-# 3. set current vertex to V.
-# 4. mark V as visited.
-# 5. if all the vertices in domain are visited, then terminate.
-# 6. Go to step 2
-
-
 def algorithm(selected, route):
-    #In plaats van 100! combinaties door te gaan, gaat ie nu 100+99+98+97+... combinaties door. Veel minder
+    """
+    Zoekt naar kortste afstand tussen current punt 'selected' en een ander punt op de route
+    """
     min_length = float("inf")
     closest = None
     for i in route:
@@ -77,19 +48,37 @@ def algorithm(selected, route):
     return closest
 
 
-# @profile
 def nearest_neighbor(route):
-    total_points = route.copy()
     new_route = []
     current_city = route.pop(0)
     new_route.append(current_city)
-    while route != []:
-        next = algorithm(current_city, route)
-        current_city = next
-        route.remove(next)
+    while route:
+        newest = algorithm(current_city, route)
+        current_city = newest
+        route.remove(newest)
         new_route.append(current_city)
 
     return new_route
+
+
+"""
+2-Opt pseudocode, van https://www.cs.ubc.ca/~hutter/previous-earg/EmpAlgReadingGroup/TSP-JohMcg97.pdf
+    two_opt_swap(route, i, k) 
+           1. Neem het begin tot punt i en zet hem in new_route
+           2. Neem punt i tot en met punt k, draai hem om, en zet hem in new_route
+           3. Neem alles na punt k, en zet hem in new_route
+    return new_route;
+
+    Wat er dan bijvoorbeeld gebeurt:
+    >>> two_opt_swap([1,2,3,4,5,6,7,8,9], i = 4, k = 7)
+    - resulteert in 1:[1,2,3], 2:[4,5,6,7], 3: [8,9]
+    - draai 2 om, 2:[7,6,5,4]
+     - resulteert in [1,2,3,7,6,5,4,8,9]
+Dit wordt vervolgens beoordeeld
+en als de lengte korter is dan dat het was, wordt het verbeterd.
+dit wordt gedaan tot geen verbetering meer voorkomt.
+
+"""
 
 
 def two_opt_swap(route, i, k):
@@ -133,7 +122,7 @@ def two_opt_solve(s):
 
 
 def toString(s):
-    return"Distance: " + str(calc_path_dist(s))
+    return "Distance: " + str(calc_path_dist(s))
 
 
 def run_alg(coordinate_list):
@@ -150,4 +139,4 @@ def run_alg(coordinate_list):
 
     print("\nNa een aantal 2-opt swaps")
     print(toString(result))
-    return result,greedy
+    return result, greedy
