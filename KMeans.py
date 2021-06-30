@@ -10,7 +10,7 @@ def sum_scuffed(lst):
     return total
 
 
-class KMeans:
+class KMedoids:
     def __init__(self, distance_matrix, n_clusters=2, start_prob=0.90, end_prob=0.99):
         if not 0 <= start_prob < end_prob <= 1:
             raise ValueError('start_prob must be smaller than end_prob.')
