@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from get_data import import_file
 from Clustering import cluster_main
-from two_opt_swap import run_alg
+from Algorithm import run_alg
 from Town import Town, Clustered_Town
 
 
